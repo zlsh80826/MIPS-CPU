@@ -53,7 +53,7 @@ module processor(
   wire [DATA_WIDTH - 1 : 0 ] dm_datain;
   wire [DATA_WIDTH - 1 : 0 ] dm_dataout;
 
-  wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc, pc_next;
+  wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc;
   wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc_min_one, pc_min_two;
 
   wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BrA, fu_result, extended_determinate, instruction;
@@ -91,29 +91,27 @@ module processor(
     .BS(BS),
     .BrA(BrA),
     .RAA(BUSA),
-    .pc_min_one(pc_next),
+    .pc_min_one(pc_min_one),
     .pc(pc)
   );
 
   // fetch instruction
+  // TODO: remove instruction
   instruction_fetch IFETCH (
     .clk(clk),
     .rst_n(rst_n),
     .pc(pc),
-    .im_dataout(im_dataout),
     .pc_min_one(pc_min_one),
-    .pc_next(pc_next),
     .im_cen(im_cen_internal),
     .im_wen(im_wen_internal),
     .im_oen(im_oen_internal),
     .im_addr(im_addr_internal),
-    .im_datain(im_datain_internal),
-    .instruction(instruction)
+    .im_datain(im_datain_internal)
   );
 
   decode_and_operend_fetch DOF (
     .clk(clk),
-    .instruction(instruction),
+    .instruction(im_dataout),
     .pc_min_one(pc_min_one),
     .AData(AData),
     .BData(BData),
