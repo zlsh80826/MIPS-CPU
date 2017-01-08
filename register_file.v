@@ -5,12 +5,12 @@ module register_file #(
 ) ( 
   input clk,
   input WriteEnable,
-  input [DATA_BITS - 1 : 0] DData
-  input [DATA_BITS - 1 : 0] AData,
-  input [DATA_BITS - 1 : 0] BData,
+  input [DATA_BITS - 1 : 0] DData,
+  output reg [DATA_BITS - 1 : 0] AData,
+  output reg [DATA_BITS - 1 : 0] BData,
   input [ADDR_BITS - 1 : 0] DAddress,
-  output reg [ADDR_BITS - 1 : 0] AAddress,
-  output reg [ADDR_BITS - 1 : 0] BAddress,
+  input [ADDR_BITS - 1 : 0] AAddress,
+  input [ADDR_BITS - 1 : 0] BAddress
 );
 
   reg [DATA_BITS - 1 : 0] register [0 : DEPTH - 1];

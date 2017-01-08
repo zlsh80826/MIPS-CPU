@@ -1,8 +1,8 @@
-module decoder (
+module decoder #(
   parameter INSTRUCTION_SIZE = 32,
   parameter REGISTER_ADDR_WIDTH = 5
 ) (
-  input [INSTRUCTION_SIZE - 1 : 0] instruction;
+  input [INSTRUCTION_SIZE - 1 : 0] instruction,
   output reg RW,
   output reg [REGISTER_ADDR_WIDTH - 1 : 0] DA,
   output reg [1:0] MD,
@@ -80,7 +80,7 @@ module decoder (
         MB = one_bit_dont_care;
         MA = one_bit_dont_care;
       end 
-      MOVE: begin
+      MOVA: begin
         FS = 4'b0000;
         MB = one_bit_dont_care;
       end
@@ -143,7 +143,7 @@ module decoder (
         MB = 1'b1;
         CS = 1'b0;
       end
-      MOVEB: begin
+      MOVB: begin
         FS = 4'b1100;
         MB = 1'b0;
         MA = one_bit_dont_care;
@@ -227,5 +227,5 @@ module decoder (
       end
     endcase
   end
-
+endmodule
 

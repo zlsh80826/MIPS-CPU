@@ -1,9 +1,9 @@
 module two_to_one_mux #(
-  parameter BITS  
+  parameter BITS = 32
 ) (
-  input select;
-  input [BITS - 1 : 0] in0;
-  input [BITS - 1 : 0] in1;
+  input select,
+  input [BITS - 1 : 0] in0,
+  input [BITS - 1 : 0] in1,
   output reg [BITS - 1 : 0] out
 );
 
