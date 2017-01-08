@@ -15,6 +15,7 @@ module processor(
 );
 
   parameter ADDRESS_WIDTH = 11;
+  parameter REG_ADDR_WIDTH = 5;
   parameter DATA_WIDTH = 32;
   parameter INSTRUCTION_WIDTH = 32;
   parameter PROGRAM_COUNTER_WIDTH = 32;
@@ -57,10 +58,12 @@ module processor(
   wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc_min_one, pc_min_two;
 
   wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BrA, fu_result, extended_determinate, instruction;
-  wire [ADDRESS_WIDTH - 1:0] SH, DA, AA, BA, DA_WB;
+  wire [DATA_WIDTH - 1:0] BUSA_next, BUSB_next;
+  wire [REG_ADDR_WIDTH - 1:0] DA, AA, BA, DA_WB;
   wire [3:0] FS;
   wire [1:0] MD, BS, MD_WB;
-  wire RW, PS, MW, RW_WB, determinate;
+  wire RW, PS, MW, RW_WB, determinate, MW_next;
+  wire [4:0] SH;
 
   /*always@(posedge clk) begin
     $display("c: %b %b %b %b", im_cen, im_cen_load, im_cen_internal, loading);
@@ -77,10 +80,10 @@ module processor(
  
   // choose the final manipulate data memory signals
   assign dm_cen = (loading == 1'b1) ? dm_cen_load : 1'b0;
-  assign dm_wen = (loading == 1'b1) ? dm_wen_load : ~MW;
+  assign dm_wen = (loading == 1'b1) ? dm_wen_load : ~MW_next;
   assign dm_oen = (loading == 1'b1) ? dm_oen_load : 1'b0;
-  assign dm_addr = (loading == 1'b1) ? dm_addr_load : BUSA[10:0];
-  assign dm_datain = (loading == 1'b1) ? dm_datain_load : BUSB;
+  assign dm_addr = (loading == 1'b1) ? dm_addr_load : BUSA_next[10:0];
+  assign dm_datain = (loading == 1'b1) ? dm_datain_load : BUSB_next;
 
   // combinational circuit to determinate pc
   branch Branch (
@@ -127,7 +130,10 @@ module processor(
     .BUSA(BUSA),
     .BUSB(BUSB),
     .AA(AA),
-    .BA(BA)
+    .BA(BA),
+    .BUSA_next(BUSA_next),
+    .BUSB_next(BUSB_next),
+    .MW_next(MW_next)
   );
 
   execute EXECUTE (

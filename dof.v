@@ -19,9 +19,12 @@ module decode_and_operend_fetch #(
   output reg PS,
   output reg MW,
   output reg [3:0] FS,
-  output reg [reg_addr_width - 1:0] SH,
+  output reg [reg_addr_width - 1 : 0] SH,
   output reg [DATA_BITS - 1:0] BUSA,
   output reg [DATA_BITS - 1:0] BUSB,
+  output [DATA_BITS - 1:0] BUSA_next,
+  output [DATA_BITS - 1:0] BUSB_next,
+  output MW_next,
   output [reg_addr_width - 1:0] AA,
   output [reg_addr_width - 1:0] BA
 );
