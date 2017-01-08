@@ -8,12 +8,13 @@ module decode_and_operend_fetch #(
 ) (
   input clk,
   input [INSTRUCTION_BITS - 1 : 0] instruction,
-  input [DATA_BITS - 1 : 0]pc_min_one,
+  input [DATA_BITS - 1 : 0] pc_min_one,
   input [DATA_BITS - 1 : 0] AData,
   input [DATA_BITS - 1 : 0] BData,
   input RW_EXE,
   input [DATA_BITS - 1 : 0] forward_data, 
   input [reg_addr_width -1 : 0] DA_EXE,
+  input flush,
   output reg [DATA_BITS - 1 : 0] pc_min_two,
   output reg RW,
   output reg [reg_addr_width - 1 : 0] DA,
@@ -38,6 +39,8 @@ module decode_and_operend_fetch #(
   wire [DATA_BITS - 1 : 0] extended_IM, BUSA_next, BUSB_next;
   wire [3:0] FS_next;
   wire [1:0] MD_next, BS_next, MUXA_select, MUXB_select;
+  wire [1:0] BS_next_flush;
+  wire RW_next_flush, MW_next_flush;
   
   assign IM = instruction[14:0];
   assign SH_next = instruction[4:0];
@@ -49,14 +52,18 @@ module decode_and_operend_fetch #(
   assign MUXB_select[1] = HB;
   assign MUXB_select[0] = MB;
 
+  assign RW_next_flush = flush & RW_next;
+  assign BS_next_flush = {flush, flush} & BS_next;
+  assign MW_next_flush = flush & MW_next;
+
   always@ (posedge clk) begin
     pc_min_two <= pc_min_one;
-    RW <= RW_next;
+    RW <= RW_next_flush;
     DA <= DA_next;
     MD <= MD_next;
-    BS <= BS_next;
+    BS <= BS_next_flush;
     PS <= PS_next;
-    MW <= MW_next;
+    MW <= MW_next_flush;
     FS <= FS_next;
     SH <= SH_next;
     BUSA <= BUSA_next;

@@ -7,11 +7,11 @@ module instruction_fetch (
   output reg im_wen,
   output reg im_oen,
   output reg [10:0] im_addr,
-  output reg [31:0] im_datain );
+  output reg [31:0] im_datain
+  output reg [31:0] pc_next
+);
 
   localparam UNDEFINE = 32'b0;
-
-  reg [31:0] pc_next;
 
   always@ (posedge clk, negedge rst_n) begin
     pc_min_one <= pc_next;

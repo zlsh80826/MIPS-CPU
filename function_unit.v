@@ -10,7 +10,7 @@ module function_unit #(
   output reg Overflow,
   output reg CarryOut,
   output Negative,
-  output Zero
+  output reg Zero
 );
     
   parameter UNDEFINE = 32'b00000000_00000000_00000000_00000000;   
@@ -106,10 +106,15 @@ module function_unit #(
         CarryOut = 32'b0;
       end
     endcase
+    if ( Result == 32'b0 ) begin
+      Zero = 1'b1;
+    end else begin
+      Zero = 1'b0;
+    end
   end
 
   assign Negative = Result[DATA_WIDTH - 1];
-  assign Zero = (Result == 32'b00000000_00000000_00000000_00000000);
+  // assign Zero = (Result == 32'b00000000_00000000_00000000_00000000) ? 1'b1 : 1'b0;
 
   function overflow; 
     input [DATA_WIDTH - 1 : 0] a, b, result;

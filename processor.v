@@ -54,15 +54,15 @@ module processor(
   wire [DATA_WIDTH - 1 : 0 ] dm_datain;
   wire [DATA_WIDTH - 1 : 0 ] dm_dataout;
 
-  wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc;
+  wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc, pc_next;
   wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc_min_one, pc_min_two;
 
-  wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BUSD, BrA, fu_result, extended_determinate, instruction, DData_WB, forward_data;
-  wire [DATA_WIDTH - 1:0] BUSA_next, BUSB_next;
+  wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BUSD, BrA, fu_result, extended_determinate, DData_WB, forward_data;
+  wire [DATA_WIDTH - 1:0] BUSA_next, BUSB_next, instruction;
   wire [REG_ADDR_WIDTH - 1:0] DA, AA, BA, DA_WB;
   wire [3:0] FS;
   wire [1:0] MD, BS, MD_WB;
-  wire RW, PS, MW, RW_WB, determinate, MW_next;
+  wire RW, PS, MW, RW_WB, determinate, MW_next, flush, flush_delay, zero;
   wire [4:0] SH;
 
   /*always@(posedge clk) begin
@@ -85,6 +85,8 @@ module processor(
   assign dm_addr = (loading == 1'b1) ? dm_addr_load : BUSA_next[10:0];
   assign dm_datain = (loading == 1'b1) ? dm_datain_load : BUSB_next;
 
+  assign instruction = im_dataout & {32{flush_delay}};
+
   // combinational circuit to determinate pc
   branch Branch (
     .clk(clk),
@@ -94,8 +96,10 @@ module processor(
     .BS(BS),
     .BrA(BrA),
     .RAA(BUSA),
-    .pc_min_one(pc_min_one),
-    .pc(pc)
+    .pc_min_one(pc_next),
+    .pc(pc),
+    .flush(flush),
+    .flush_delay(flush_delay)
   );
 
   // fetch instruction
@@ -109,12 +113,13 @@ module processor(
     .im_wen(im_wen_internal),
     .im_oen(im_oen_internal),
     .im_addr(im_addr_internal),
-    .im_datain(im_datain_internal)
+    .im_datain(im_datain_internal),
+    .pc_next(pc_next)
   );
 
   decode_and_operend_fetch DOF (
     .clk(clk),
-    .instruction(im_dataout),
+    .instruction(instruction),
     .pc_min_one(pc_min_one),
     .AData(AData),
     .BData(BData),
@@ -136,7 +141,8 @@ module processor(
     .MW_next(MW_next),
     .RW_EXE(RW),
     .DA_EXE(DA),
-    .forward_data(forward_data)
+    .forward_data(forward_data),
+    .flush(flush)
   );
 
   execute EXECUTE (
@@ -160,7 +166,8 @@ module processor(
     .determinate(determinate),
     .DData(dm_dataout),
     .DData_next(DData_WB),
-    .forward_data(forward_data)
+    .forward_data(forward_data),
+    .zero(zero)
   );
 
   // im_dataout will be the instruction to decoder
