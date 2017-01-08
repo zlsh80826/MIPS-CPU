@@ -4,6 +4,7 @@ module register_file #(
   parameter DEPTH = 1 << ADDR_BITS
 ) ( 
   input clk,
+  input rst_n,
   input WriteEnable,
   input [DATA_BITS - 1 : 0] DData,
   output reg [DATA_BITS - 1 : 0] AData,
@@ -21,17 +22,23 @@ module register_file #(
     BData = register[BAddress];
   end
 
-  always @(posedge clk) begin
-    if ( WriteEnable == 1'b1 ) begin 
+  always @(posedge clk, negedge rst_n) begin
+    if ( rst_n == 1'b0 ) begin
       for ( i = 0; i < DEPTH; i = i + 1 ) begin
-        if ( i == DAddress )
-          register[i] <= DData;
-        else 
-          register[i] <= register[i];
+        register[i] <= 32'b0;
       end
     end else begin
-      for ( i = 0; i < DEPTH; i = i + 1 ) begin
-        register[i] <= register[i];
+      if ( WriteEnable == 1'b1 ) begin 
+        for ( i = 0; i < DEPTH; i = i + 1 ) begin
+          if ( i == DAddress )
+            register[i] <= DData;
+          else 
+            register[i] <= register[i];
+        end
+      end else begin
+        for ( i = 0; i < DEPTH; i = i + 1 ) begin
+          register[i] <= register[i];
+        end
       end
     end
   end

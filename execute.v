@@ -15,18 +15,23 @@ module execute #(
   input [DATA_BITS - 1:0] BUSA,
   input [DATA_BITS - 1:0] BUSB,
   input [PROGRAM_COUNTER_WIDTH - 1:0] pc_min_two,
+  input [DATA_BITS - 1 : 0] DData, 
   output reg RW_WB,
   output reg [reg_addr_width - 1:0] DA_WB,
   output reg [1:0] MD_WB,
   output wire [DATA_BITS - 1:0] BrA,
   output reg [DATA_BITS - 1:0] result,
-  output reg determinate
+  output reg determinate,
+  output reg [DATA_BITS - 1 : 0] DData_next,
+  output [DATA_BITS - 1 : 0] forward_data
 );
 
   wire determinate_next, overflow, carryout, zero, negative;
   wire [DATA_BITS - 1 : 0] result_next;
+  wire [DATA_BITS - 1 : 0] extended_determinate_next;
 
   assign determinate_next = negative ^ overflow;
+  assign extended_determinate_next = {31'b0, determinate_next};
 
   always@ (posedge clk) begin
     RW_WB <= RW;
@@ -34,6 +39,7 @@ module execute #(
     MD_WB <= MD;
     result <= result_next;
     determinate <= determinate_next;
+    DData_next <= DData;
   end
 
   function_unit FunctionUnit (
@@ -53,5 +59,13 @@ module execute #(
     .in1(BUSB),
     .out(BrA)
   ); 
+
+  three_to_one_mux MUXDFORWARD (
+    .select(MD),
+    .in0(result_next),
+    .in1(DData),
+    .in2(extended_determinate_next),
+    .out(forward_data)
+  );
 
 endmodule

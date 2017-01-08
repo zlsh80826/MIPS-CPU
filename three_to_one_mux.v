@@ -5,7 +5,7 @@ module three_to_one_mux #(
   input [DATA_WIDTH - 1 : 0] in0,
   input [DATA_WIDTH - 1 : 0] in1,
   input [DATA_WIDTH - 1 : 0] in2,
-  output reg out
+  output reg [DATA_WIDTH - 1 : 0] out
 );
 
   always@(*) begin

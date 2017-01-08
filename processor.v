@@ -57,7 +57,7 @@ module processor(
   wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc;
   wire [PROGRAM_COUNTER_WIDTH - 1 : 0] pc_min_one, pc_min_two;
 
-  wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BrA, fu_result, extended_determinate, instruction;
+  wire [DATA_WIDTH - 1:0] AData, BData, DData, BUSA, BUSB, BUSD, BrA, fu_result, extended_determinate, instruction, DData_WB, forward_data;
   wire [DATA_WIDTH - 1:0] BUSA_next, BUSB_next;
   wire [REG_ADDR_WIDTH - 1:0] DA, AA, BA, DA_WB;
   wire [3:0] FS;
@@ -133,7 +133,10 @@ module processor(
     .BA(BA),
     .BUSA_next(BUSA_next),
     .BUSB_next(BUSB_next),
-    .MW_next(MW_next)
+    .MW_next(MW_next),
+    .RW_EXE(RW),
+    .DA_EXE(DA),
+    .forward_data(forward_data)
   );
 
   execute EXECUTE (
@@ -152,8 +155,12 @@ module processor(
     .DA_WB(DA_WB),
     .MD_WB(MD_WB),
     .BrA(BrA),
+    .pc_min_two(pc_min_two),
     .result(fu_result),
-    .determinate(determinate)
+    .determinate(determinate),
+    .DData(dm_dataout),
+    .DData_next(DData_WB),
+    .forward_data(forward_data)
   );
 
   // im_dataout will be the instruction to decoder
@@ -178,13 +185,15 @@ module processor(
   );
 
   // TODO: check the source of DA
+  // change BUSD to forwarding data
   register_file RegisterFile (
     .clk(clk),
-    .WriteEnable(RW_WB),
-    .DData(BUSD),
+    .rst_n(rst_n),
+    .WriteEnable(RW),
+    .DData(forward_data),
     .AData(AData),
     .BData(BData),
-    .DAddress(DA_WB),
+    .DAddress(DA),
     .AAddress(AA),
     .BAddress(BA)
   );
@@ -194,7 +203,7 @@ module processor(
   three_to_one_mux MUXD (
     .select(MD_WB),
     .in0(fu_result),
-    .in1(dm_dataout),
+    .in1(DData_WB),
     .in2(extended_determinate),
     .out(BUSD)
   );

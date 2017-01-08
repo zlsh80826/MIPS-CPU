@@ -8,10 +8,13 @@ module decode_and_operend_fetch #(
 ) (
   input clk,
   input [INSTRUCTION_BITS - 1 : 0] instruction,
-  input [DATA_BITS - 1:0]pc_min_one,
-  input [DATA_BITS - 1:0] AData,
-  input [DATA_BITS - 1:0] BData,
-  output reg [DATA_BITS - 1:0] pc_min_two,
+  input [DATA_BITS - 1 : 0]pc_min_one,
+  input [DATA_BITS - 1 : 0] AData,
+  input [DATA_BITS - 1 : 0] BData,
+  input RW_EXE,
+  input [DATA_BITS - 1 : 0] forward_data, 
+  input [reg_addr_width -1 : 0] DA_EXE,
+  output reg [DATA_BITS - 1 : 0] pc_min_two,
   output reg RW,
   output reg [reg_addr_width - 1 : 0] DA,
   output reg [1:0] MD,
@@ -20,24 +23,31 @@ module decode_and_operend_fetch #(
   output reg MW,
   output reg [3:0] FS,
   output reg [reg_addr_width - 1 : 0] SH,
-  output reg [DATA_BITS - 1:0] BUSA,
-  output reg [DATA_BITS - 1:0] BUSB,
-  output [DATA_BITS - 1:0] BUSA_next,
-  output [DATA_BITS - 1:0] BUSB_next,
+  output reg [DATA_BITS - 1 : 0] BUSA,
+  output reg [DATA_BITS - 1 : 0] BUSB,
+  output [DATA_BITS - 1 : 0] BUSA_next,
+  output [DATA_BITS - 1 : 0] BUSB_next,
   output MW_next,
-  output [reg_addr_width - 1:0] AA,
-  output [reg_addr_width - 1:0] BA
+  output [reg_addr_width - 1 : 0] AA,
+  output [reg_addr_width - 1 : 0] BA
 );
 
-  wire  MA, MB, CS, RW_next, PS_next, MW_next;
+  wire  MA, MB, CS, RW_next, PS_next, MW_nexti, comp_result_DA, comp_result_DB, HB, HA;
   wire [reg_addr_width - 1 : 0] DA_next;
   wire [immediate_width - 1 : 0] IM;
   wire [DATA_BITS - 1 : 0] extended_IM, BUSA_next, BUSB_next;
   wire [3:0] FS_next;
-  wire [1:0] MD_next, BS_next;
+  wire [1:0] MD_next, BS_next, MUXA_select, MUXB_select;
   
   assign IM = instruction[14:0];
   assign SH_next = instruction[4:0];
+  assign or_DA_EXE = DA_EXE[0] | DA_EXE[1] | DA_EXE[2] | DA_EXE[3] | DA_EXE[4];
+  assign HB = (comp_result_DB) & (~MB) & (RW_EXE) & (or_DA_EXE);
+  assign HA = (comp_result_DA) & (~MA) & (RW_EXE) & (or_DA_EXE);
+  assign MUXA_select[1] = HA;
+  assign MUXA_select[0] = MA;
+  assign MUXB_select[1] = HB;
+  assign MUXB_select[0] = MB;
 
   always@ (posedge clk) begin
     pc_min_two <= pc_min_one;
@@ -75,18 +85,31 @@ module decode_and_operend_fetch #(
     .extended_IM(extended_IM)
   );
 
-  two_to_one_mux MUXA (
+  three_to_one_mux MUXA (
     .out(BUSA_next),
-    .select(MA),
+    .select(MUXA_select),
     .in0(AData),
-    .in1(pc_min_one)
+    .in1(pc_min_one),
+    .in2(forward_data)
   );
 
-  two_to_one_mux MUXB (
+  three_to_one_mux MUXB (
     .out(BUSB_next),
-    .select(MB),
+    .select(MUXB_select),
     .in0(BData),
-    .in1(extended_IM)
+    .in1(extended_IM),
+    .in2(forward_data)
   );
-    
+
+  comp CompDA (
+    .in0(DA_EXE),
+    .in1(AA),
+    .comp_result(comp_result_DA)
+  );
+
+  comp CompDB (
+    .in0(DA_EXE),
+    .in1(BA),
+    .comp_result(comp_result_DB)
+  );    
 endmodule
