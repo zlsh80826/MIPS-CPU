@@ -2,7 +2,6 @@ module four_to_one_mux #(
   parameter BITS = 32
 ) (
   input [1:0] select,
-  input rst_n,
   input [BITS - 1 : 0] in0,
   input [BITS - 1 : 0] in1,
   input [BITS - 1 : 0] in2,
@@ -10,11 +9,13 @@ module four_to_one_mux #(
   output reg [BITS - 1 : 0] out
 );
 
-  always@ (rst_n) begin
+  /*always@ (posedge clk, negedge rst_n) begin
     if (rst_n == 1'b0) begin
-      out = 32'b0;
+      out <= 32'b0;
+    end else begin
+      out <= out;
     end
-  end
+  end*/
 
   always@ (*) begin
     if ( select == 2'b11 ) begin

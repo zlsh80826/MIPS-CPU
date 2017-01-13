@@ -124,6 +124,7 @@ module processor(
     .AData(AData),
     .BData(BData),
     .pc_min_two(pc_min_two),
+    .rst_n(rst_n),
     .RW(RW),
     .DA(DA),
     .MD(MD),

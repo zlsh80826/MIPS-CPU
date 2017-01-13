@@ -52,7 +52,7 @@ module function_unit #(
         Result = A;
         CarryOut = 1'b0;
       end 
-      4'b00001: begin
+      4'b0001: begin
         {CarryOut, Result} = A + 32'd1;
       end
       4'b0010: begin

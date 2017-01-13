@@ -24,10 +24,10 @@ module execute #(
   output reg determinate,
   output reg [DATA_BITS - 1 : 0] DData_next,
   output [DATA_BITS - 1 : 0] forward_data,
-  output zero
+  output wire zero
 );
 
-  wire determinate_next, overflow, carryout, zero, negative;
+  wire determinate_next, overflow, carryout, negative;
   wire [DATA_BITS - 1 : 0] result_next;
   wire [DATA_BITS - 1 : 0] extended_determinate_next;
 
