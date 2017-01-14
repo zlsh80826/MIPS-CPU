@@ -1,0 +1,133 @@
+ 
+****************************************
+Report : area
+Design : processor
+Version: K-2015.06-SP1
+Date   : Fri Jan 13 03:26:21 2017
+****************************************
+
+Library(s) Used:
+
+    slow (File: /theda21_2/CBDK_IC_Contest/cur/SynopsysDC/db/slow.db)
+    USERLIB (File: /users/course/2016F/cs4125/dsd39/Final/RAM2Kx32_slow_syn.db)
+
+Number of ports:                         2836
+Number of nets:                          7706
+Number of cells:                         4848
+Number of combinational cells:           3538
+Number of sequential cells:              1253
+Number of macros/black boxes:               2
+Number of buf/inv:                        263
+Number of references:                      13
+
+Combinational area:              40771.547277
+Buf/Inv area:                      977.702384
+Noncombinational area:           38692.231897
+Macro/Black Box area:           966506.875000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:               1045970.654175
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area                 Local cell area
+                                  ---------------------  ----------------------------------- 
+Hierarchical cell                 Absolute      Percent  Combi-      Noncombi-   Black-
+                                  Total         Total    national    national    boxes        Design
+--------------------------------  ------------  -------  ----------  ----------  -----------  -------------------------------------
+processor                         1045970.6542    100.0   1037.1114      0.0000  966506.8750  processor
+Branch                               1984.2605      0.2     35.6454   1069.3620       0.0000  branch
+Branch/MUXC                           879.2532      0.1    879.2532      0.0000       0.0000  four_to_one_mux
+DOF                                  4846.0770      0.5     42.4350   3023.0695       0.0000  decode_and_operend_fetch
+DOF/CompDA                             72.9882      0.0     72.9882      0.0000       0.0000  comp_1
+DOF/CompDB                             72.9882      0.0     72.9882      0.0000       0.0000  comp_0
+DOF/ConstantUnit                      101.8440      0.0    101.8440      0.0000       0.0000  constant_unit
+DOF/Decoder                           390.4020      0.0    390.4020      0.0000       0.0000  decoder
+DOF/MUXA                              572.0238      0.1    572.0238      0.0000       0.0000  three_to_one_mux_2
+DOF/MUXB                              570.3264      0.1    570.3264      0.0000       0.0000  three_to_one_mux_1
+EXECUTE                             15661.9097      1.5     11.8818      0.0000       0.0000  execute
+EXECUTE/Adder                        1303.6032      0.1      0.0000      0.0000       0.0000  adder
+EXECUTE/Adder/add_9                  1303.6032      0.1   1303.6032      0.0000       0.0000  adder_DW01_add_0
+EXECUTE/FunctionUnit                13827.0203      1.3   6648.7157      0.0000       0.0000  function_unit
+EXECUTE/FunctionUnit/add_1_root_add_62_2
+                                     1478.4354      0.1   1478.4354      0.0000       0.0000  function_unit_DW01_add_2
+EXECUTE/FunctionUnit/add_1_root_add_68_2
+                                     1512.3834      0.1   1512.3834      0.0000       0.0000  function_unit_DW01_add_0
+EXECUTE/FunctionUnit/add_56           575.4186      0.1    575.4186      0.0000       0.0000  function_unit_DW01_inc_0
+EXECUTE/FunctionUnit/add_59          1507.2912      0.1   1507.2912      0.0000       0.0000  function_unit_DW01_add_3
+EXECUTE/FunctionUnit/add_65          1529.3574      0.1   1529.3574      0.0000       0.0000  function_unit_DW01_add_1
+EXECUTE/FunctionUnit/sub_71           575.4186      0.1    575.4186      0.0000       0.0000  function_unit_DW01_dec_2
+EXECUTE/MUXDFORWARD                   519.4044      0.0    519.4044      0.0000       0.0000  three_to_one_mux_0
+IFETCH                               1390.1706      0.1      0.0000    814.7520       0.0000  instruction_fetch
+IFETCH/add_26                         575.4186      0.1    575.4186      0.0000       0.0000  instruction_fetch_DW01_inc_0
+RegisterFile                        54544.2499      5.2  20759.2015  33024.6133       0.0000  register_file
+RegisterFile/clk_gate_register_reg[0]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_0
+RegisterFile/clk_gate_register_reg[10]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_22
+RegisterFile/clk_gate_register_reg[11]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_21
+RegisterFile/clk_gate_register_reg[12]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_20
+RegisterFile/clk_gate_register_reg[13]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_19
+RegisterFile/clk_gate_register_reg[14]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_18
+RegisterFile/clk_gate_register_reg[15]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_17
+RegisterFile/clk_gate_register_reg[16]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_16
+RegisterFile/clk_gate_register_reg[17]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_15
+RegisterFile/clk_gate_register_reg[18]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_14
+RegisterFile/clk_gate_register_reg[19]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_13
+RegisterFile/clk_gate_register_reg[1]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_31
+RegisterFile/clk_gate_register_reg[20]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_12
+RegisterFile/clk_gate_register_reg[21]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_11
+RegisterFile/clk_gate_register_reg[22]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_10
+RegisterFile/clk_gate_register_reg[23]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_9
+RegisterFile/clk_gate_register_reg[24]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_8
+RegisterFile/clk_gate_register_reg[25]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_7
+RegisterFile/clk_gate_register_reg[26]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_6
+RegisterFile/clk_gate_register_reg[27]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_5
+RegisterFile/clk_gate_register_reg[28]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_4
+RegisterFile/clk_gate_register_reg[29]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_3
+RegisterFile/clk_gate_register_reg[2]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_30
+RegisterFile/clk_gate_register_reg[30]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_2
+RegisterFile/clk_gate_register_reg[31]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_1
+RegisterFile/clk_gate_register_reg[3]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_29
+RegisterFile/clk_gate_register_reg[4]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_28
+RegisterFile/clk_gate_register_reg[5]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_27
+RegisterFile/clk_gate_register_reg[6]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_26
+RegisterFile/clk_gate_register_reg[7]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_25
+RegisterFile/clk_gate_register_reg[8]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_24
+RegisterFile/clk_gate_register_reg[9]
+                                       23.7636      0.0      0.0000     23.7636       0.0000  SNPS_CLOCK_GATE_HIGH_register_file_23
+--------------------------------  ------------  -------  ----------  ----------  -----------  -------------------------------------
+Total                                                    40771.5473  38692.2319  966506.8750
+
+1
