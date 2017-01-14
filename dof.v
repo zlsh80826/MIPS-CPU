@@ -59,31 +59,17 @@ module decode_and_operend_fetch #(
   assign MW_next_flush = flush & MW_next;
 
   always@ (posedge clk) begin
-    /*if ( rst_n == 1'b0 ) begin
-      pc_min_two <= 32'b0;
-      RW <= 1'b0;
-      DA <= 5'b0;
-      MD <= 1'b0;
-      BS <= 2'b0;
-      PS <= 1'b0;
-      MW <= 1'b0;
-      FS <= 4'b0;
-      SH <= 5'b0;
-      BUSA <= 32'b0;
-      BUSB <= 32'b0;
-    end else begin*/
-      pc_min_two <= pc_min_one;
-      RW <= RW_next_flush;
-      DA <= DA_next;
-      MD <= MD_next;
-      BS <= BS_next_flush;
-      PS <= PS_next;
-      MW <= MW_next_flush;
-      FS <= FS_next;
-      SH <= SH_next;
-      BUSA <= BUSA_next;
-      BUSB <= BUSB_next;
-    // end
+    pc_min_two <= pc_min_one;
+    RW <= RW_next_flush;
+    DA <= DA_next;
+    MD <= MD_next;
+    BS <= BS_next_flush;
+    PS <= PS_next;
+    MW <= MW_next_flush;
+    FS <= FS_next;
+    SH <= SH_next;
+    BUSA <= BUSA_next;
+    BUSB <= BUSB_next;
   end
 
   decoder Decoder(

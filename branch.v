@@ -15,10 +15,6 @@ module branch (
   reg [1:0] select;
   wire [31:0] pc_next;
 
-  // assign select[1] = BS[1];
-  // assign select[0] = ((PS ^ zero) | BS[1]) & BS[0];
-  // assign flush = ~(select[0] | select[1]);
-
   always@ (posedge clk, negedge rst_n) begin
     if ( rst_n == 0 ) begin
       pc <= 32'b0;

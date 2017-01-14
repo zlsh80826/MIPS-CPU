@@ -9,8 +9,8 @@ module stimulus;
   parameter delay = 1;
 
   //  Define the input and output file names
-  parameter program_code  = "testcase/03_bin.dat";
-  parameter program_data  = "testcase/03_data.dat";
+  parameter program_code  = "testcase/01_gcd_plain-bin.dat";
+  parameter program_data  = "testcase/01_gcd_plain-data.dat";
   parameter sdf_file      = "processor_syn.sdf";
   parameter fsdb_syn_file = "processor_syn.fsdb";
   parameter fsdb_file     = "processor.fsdb";
@@ -126,7 +126,7 @@ module stimulus;
     #(period);
     #(delay)  rst_n = 0;
     #(period*4) rst_n = 1;
-    #(period*600);
+    #(period*2100);
 
     $finish;
   end
