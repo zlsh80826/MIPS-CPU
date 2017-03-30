@@ -1,8 +1,3 @@
-Declare
-==========
-
-此 Readme 由 reStructuredText extension 撰寫，為確保觀看品質，請到 https://github.com/zlsh80826/MIPS-CPU/tree/master 觀看
-
 MIPS-CPU
 ==========
 
